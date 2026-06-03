@@ -6,6 +6,9 @@ USE coffeeshop_db;
 -- directly below it. Keep your work; you'll submit this file.
 -- =========================================================
 
+-- I have used navicat.com, geeksforgeeks.org, w3schools.com and stackoverflow.com to figure out 
+-- a lot of the commands that I used in many of these queries. 
+
 -- Q1) List all products (show product name and price), sorted by price descending.
 select name, price from products
 order by price desc;
@@ -29,7 +32,7 @@ select distinct name, city, state from stores;
 select orders.order_id, orders.status, SUM(order_items.quantity) as total_items
 from orders
 join order_items on orders.order_id = order_items.order_id
-group by orders.order_id, orders.status;
+group by order_id;
 -- Q8) Show orders placed on '2025-09-04' (any time that day).
 select * from orders
 where DATE(order_datetime) = '2025-09-04';

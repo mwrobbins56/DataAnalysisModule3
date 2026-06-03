@@ -7,7 +7,7 @@ USE coffeeshop_db;
 
 -- I have used navicat.com, geeksforgeeks.org, w3schools.com and stackoverflow.com to figure out 
 -- a lot of the commands that I used in many of these queries. 
--- I had seen the use of COUNT, ROUND, and SUM before, but hod to research the CASE and the 
+-- I had seen the use of COUNT, ROUND, and SUM before, but had to research the CASE and the 
 -- DATE commands stuff, a lot. I needed a lot of help with Q4, Q5, Q6, Q8, Q11, and Q12.
 
 -- Q1) Compute total items per order.
@@ -79,6 +79,7 @@ group by DAYNAME(order_datetime)
 as max_counts);
 -- Q9) Show the calendar days whose total orders (any status) exceed 3.
 --     Use HAVING. Return (order_date, orders_count).
+-- Maybe I am missing something, but I don't get any output for this one, no matter what I try.
 select DATE(order_datetime) as order_date, COUNT(*) as orders_count 
 from orders
 group by DATE(order_datetime)
@@ -92,6 +93,8 @@ group by store_id, payment_method
 order by store_id, payment_method;
 -- Q11) Among PAID orders, what percent used 'app' as the payment_method?
 --      Return a single row with pct_app_paid_orders (0–100).
+-- This one, by far, was the most complicated of these queries. Had to spend a lot of time 
+-- researching the if-then-else stuff. 
 select 
 ROUND(SUM(CASE WHEN payment_method = 'app' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) as pct_app_paid_orders
 from orders
