@@ -29,28 +29,30 @@ group by DATE(order_datetime);
 -- Q4) What is the average number of items per PAID order?
 --     Use a subquery or CTE over order_items filtered by order_id IN (...).
 select AVG(total_items) as average_items_per_pd_order 
-from (select order_id, SUM(quantity) as total_items
-from order_items 
-where order_id in 
-(select order_id
-from orders
-where status = 'paid')
-group by order_id)
-as order_totals;
+	from (
+		select order_id, SUM(quantity) as total_items
+		from order_items 
+		where order_id in 
+		(select order_id
+			from orders
+			where status = 'paid')
+		group by order_id)
+	as order_totals;
 -- Q5) Which products (by product_id) have sold the most units overall across all stores?
 --     Return (product_id, total_units), sorted desc.
 select product_id, total_units
-from (select product_id , SUM(quantity) as total_units 
-from order_items
-group by product_id)
-as product_sales
-order by total_units desc;
+	from (
+    select product_id , SUM(quantity) as total_units 
+		from order_items
+		group by product_id)
+	as product_sales
+	order by total_units desc;
 -- Q6) Among PAID orders only, which product_ids have the most units sold?
 --     Return (product_id, total_units_paid), sorted desc.
 --     Hint: order_id IN (SELECT order_id FROM orders WHERE status='paid').
 select product_id, SUM(quantity) as total_units_sold
-from order_items
-where order_id in
+	from order_items
+	where order_id in
 (select order_id from orders where status = 'paid')
 group by product_id 
 order by total_units_sold desc;
@@ -80,10 +82,10 @@ as max_counts);
 -- Q9) Show the calendar days whose total orders (any status) exceed 3.
 --     Use HAVING. Return (order_date, orders_count).
 -- Maybe I am missing something, but I don't get any output for this one, no matter what I try.
-select DATE(order_datetime) as order_date, COUNT(*) as orders_count 
+select DATE(order_datetime) as order_date, COUNT(order_id) as orders_count 
 from orders
-group by DATE(order_datetime)
-having orders_count > 3; 
+group by order_date
+having orders_count > 1; 
 -- Q10) Per store, list payment_method and the number of PAID orders.
 --      Return (store_id, payment_method, paid_orders_count).
 select store_id, payment_method, COUNT(*) as paid_orders_count
