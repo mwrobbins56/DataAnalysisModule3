@@ -105,7 +105,21 @@ id	    age	height	eye_color	hair_color	gender	plate_number	car_make	car_model
 423327	30	70	    brown	    brown	    male	0H42W2	        Chevrolet	Spark LS
 664760	21	71	    black	    black	    male	4H42WR	        Nissan	    Altima
 
-### Could not find conclusive evidence so I checked the two suspect's interviews. Joe Germuska wasn't interviewed.
+### Used previous info to put this join query together, and worked on in class.
+select p.name
+  from person p 
+  join get_fit_now_member m on m.person_id = p.id
+  join get_fit_now_check_in c on c.membership_id = m.id
+  join drivers_license d on d.id = p.license_id
+ where m.id like '48Z%' 
+  and m.membership_status = 'gold' 
+  and d.plate_number like '%H42W%' 
+  and c.check_in_date = 20180109;
+
+name
+Jeremy Bowers
+
+### Used the name Jeremy Bowers and got his person_id from above to run this query.
 SELECT * 
   FROM interview
  where person_id = 67318;
@@ -123,20 +137,26 @@ INSERT INTO solution VALUES (1, 'Jeremy Bowers');
 value
 Congrats, you found the murderer! But wait, there's more... If you think you're up for a challenge, try querying the interview transcript of the murderer to find the real villain behind this crime. If you feel especially confident in your SQL skills, try to complete this final step with no more than 2 queries. Use this same INSERT statement with your new suspect to check your answer.
 
-### Checked the facebook_event_checkin table for a woman who went to the concert 3 time in December 2017.
-SELECT *  
-  FROM facebook_event_checkin
- where event_name = 'SQL Symphony Concert' and date LIKE '201712%' order by person_id;
+### Used all the previous info and we worked on in class, used this query to find the main villain.
+SELECT p.name
+  FROM person p
+  join drivers_license d on p.license_id = d.id
+  join facebook_event_checkin f on p.id = f.person_id
+  join income i on p.ssn = i.ssn
+ where d.height between 65 and 67
+ and d.hair_color = 'red'
+ and d.car_make = 'Tesla'
+ and d.car_model = 'Model S'
+ and f.event_name = 'SQL Symphony Concert'
+ and f.date between 20171201 and 20171231
+ group by p.id, p.name
+having count(f.event_id) = 3
+order by i.annual_income desc;
 
-### Found a woman who attended the concert three times in December 2017, with id = 99716. 
-SELECT * 
-  FROM person
- where id = 99716;
+name
+Miranda Priestly
 
-id	    name	            license_id	address_number	address_street_name	    ssn
-99716	Miranda Priestly	202298	    1883	        Golden Ave	            987756388
-
-### Checked the solution table for Miranda Priestly, she was the guilty person.
+### Checked the solution table for Miranda Priestly, she was the main villain.
 INSERT INTO solution VALUES (1, 'Miranda Priestly');
        SELECT value FROM solution;
 
