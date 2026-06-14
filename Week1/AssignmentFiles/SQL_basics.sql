@@ -7,7 +7,10 @@ USE coffeeshop_db;
 -- =========================================================
 
 -- I have used navicat.com, geeksforgeeks.org, w3schools.com and stackoverflow.com to figure out 
--- a lot of the commands that I used in many of these queries. 
+-- a lot of the commands that I used in many of these queries. I also did a lot of google.com 
+-- searches and did not realise I had AI assist turned on, so a lot of my searches used AI. 
+-- I used google.com searches in all three of these Week 1 Basic practice prompts, I say this to 
+-- acknowledge that AI assisted in many on my responses. 
 
 -- Q1) List all products (show product name and price), sorted by price descending.
 select name, price from products
